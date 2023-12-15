@@ -2,14 +2,23 @@ def admin_interaction():
     from admin import create_cs_employee, create_book, create_university, deactivate_admin, \
        remove_customer_support
 
-    # Admin interaction logic
-    # ...
+    emp_id = create_cs_employee('csrep1', 'csemp1@example.com', 50000)
+    print(emp_id)
+    create_book('9781234567892', 'Python 101', 'Jane Doe', 5, 19.99)
+    deactivate_admin(105)
 
 
 def customer_service_interaction():
     from customerservice import create_trouble_ticket, update_trouble_ticket,cancel_order
     # Customer service interaction logic
     # ...
+    student_id=1
+    ticket_id = create_trouble_ticket(student_id, 'Order Issue', 'Shipping Delay',
+                                      'My order has not arrived')
+    print(ticket_id)
+
+    assign_to = 102
+    update_trouble_ticket(ticket_id, assign_to, 'Sorry for the trouble, investigating issue')
 
 
 def student_interaction():
@@ -17,6 +26,14 @@ def student_interaction():
         view_information
     # Student interaction logic
     # ...
+    student_id = create_student('jsmith', 'jsmith@example.com', '123 Main St, Anytown')
+    print(student_id)
+    cart_id = create_cart(student_id)
+    print(cart_id)
+    create_book_rating(student_id, '9781234567891', 5)
+    add_to_cart(cart_id, '9781234567891', 2)
+    order_id = create_order(student_id, cart_id, 'Standard', '4444333322221111')
+    print(order_id)
 
 
 def main():
