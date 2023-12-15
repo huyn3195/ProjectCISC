@@ -1,4 +1,5 @@
 import mysql.connector
+from mysql.connector import Error
 
 cnx = mysql.connector.connect(user='root', password='Quanlynhansu2023@',
                               host='127.0.0.1',
@@ -29,11 +30,60 @@ def cancel_order(orderid):
     cnx.commit()
 
 
-def create_student(username, email, address):
-    studentid = 0
-    cursor.callproc('createNewStudent', [username, email, address, studentid])
-    cnx.commit()
-    return studentid
+def create_user_and_add_to_student(loginname, password, passworddate, f_name, l_name, email, status, year):
+    try:
+
+        # Connection parameters - replace with your database details
+
+        connection = mysql.connector.connect(
+
+            host='127.0.0.1',
+
+            database='bookfetch',
+
+            user='root',
+
+            password='Quanlynhansu2023@'
+
+        )
+
+        if connection.is_connected():
+            cursor = connection.cursor()
+
+            # Call the stored procedure
+
+            args = (loginname, password, passworddate, f_name, l_name, email, status, year)
+
+            cursor.callproc('CreateUserAndAddToStudent', args)
+
+            # Commit the transaction
+
+            connection.commit()
+
+            print("User and student record inserted successfully")
+
+
+
+    except Error as e:
+
+        print("Error while connecting to MySQL", e)
+
+
+
+    finally:
+
+        # Closing the connection
+
+        if connection.is_connected():
+            cursor.close()
+
+            connection.close()
+
+            print("MySQL connection is closed")
+
+
+# Example usage
+
 
 
 def create_order(studentid, cartid, shipping, ccdetails):
